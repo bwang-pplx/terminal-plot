@@ -2,7 +2,7 @@
 
 A [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills) that renders simple charts inline in the terminal as **native unicode text** — no images, no GUIs, survives logs and transcripts.
 
-When you ask Claude to visualize numeric data, it picks one of twelve chart types and shells out to a tiny Python CLI. Output is ANSI-free by default; pass `--color` to opt in.
+When you ask Claude to visualize numeric data, it picks one of eleven chart types and shells out to a tiny Python CLI. Output is ANSI-free by default; pass `--color` to opt in.
 
 ## What it looks like
 
@@ -65,21 +65,6 @@ Q4 ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇�
 ```
 Disk usage [████████████████████░░░░░░░░░░] 67.0%
 ```
-
-### Calendar heatmap (`calendar`)
-
-```
-commits over 20 weeks
-▂▂▁ ▄▄▃▁▄▁▄▁▁▄▇▆▁▂▇
-▂▂▁▂ ▄▄▂▆▅▇▃▃▃▂▄▃▃▃▅
-▂▃▃▄▄ ▄▄▄ ▄▄▅▁▆▄▆ ▅▄
-▄▃▅▄ ▄▃▂▄▃▁▁▃▄▃  ▃ ▆
-▂▅▃▂ ▁▄█▆▃▁▂▃▃▂▄▂ ▂▄
- ▁▁▁ ▁▁ ▁   ▁▂ ▁▂▁▁▁
-▁▁▁▁ ▁   ▁▂ ▂▁▁  ▁▂
-```
-
-Rows are days (default 7 = days of week), columns are weeks; values map to a 9-step block ramp.
 
 ### Box plot (`box`)
 
@@ -217,7 +202,6 @@ Claude will pick the right subcommand and call it.
 ~/.claude/skills/terminal-plot/plot.py scatter   --x "1,2,3,4,5" --y "2,4,3,6,5"
 ~/.claude/skills/terminal-plot/plot.py sparkline --values "1,3,5,8,5,3,1,9"
 ~/.claude/skills/terminal-plot/plot.py gauge     --value 67 --label "Disk usage"
-~/.claude/skills/terminal-plot/plot.py calendar  --values "1,2,0,5,3,1,0,4,2,1,0,3,5,2"
 ~/.claude/skills/terminal-plot/plot.py hist      --values "1,2,2,3,3,3,4,4,4,4,5"
 ~/.claude/skills/terminal-plot/plot.py box       --labels "A,B,C" --datasets "[[1,2,3,4,5],[3,4,5,6,7],[2,3,4,5,6]]"
 ```

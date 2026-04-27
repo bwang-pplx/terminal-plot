@@ -1,6 +1,6 @@
 ---
 name: terminal-plot
-description: Render charts (bar, horizontal bar, stacked bar, grouped bar, line, multi-line, scatter, sparkline, gauge, calendar heatmap, histogram, box plot) inline in the terminal as native unicode text. Use when the user wants to visualize numeric data without leaving the CLI, or when you need to summarize tabular data with a quick chart in chat.
+description: Render charts (bar, horizontal bar, stacked bar, grouped bar, line, multi-line, scatter, sparkline, gauge, histogram, box plot) inline in the terminal as native unicode text. Use when the user wants to visualize numeric data without leaving the CLI, or when you need to summarize tabular data with a quick chart in chat.
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/plot.py *)
 ---
 
@@ -28,7 +28,6 @@ ${CLAUDE_SKILL_DIR}/plot.py multiline --series "[[1,2,3],[4,5,6]]"              
 ${CLAUDE_SKILL_DIR}/plot.py scatter   --x "1,2,3" --y "4,5,6"                         [--title "..."] [--xlabel ...] [--ylabel ...] [--width N] [--height N] [--color]
 ${CLAUDE_SKILL_DIR}/plot.py sparkline --values "1,2,3,..."                            [--title "..."]
 ${CLAUDE_SKILL_DIR}/plot.py gauge     --value 67 [--max 100]                          [--label "..."] [--width N]
-${CLAUDE_SKILL_DIR}/plot.py calendar  --values "1,2,0,5,..."                          [--rows 7] [--title "..."]
 ${CLAUDE_SKILL_DIR}/plot.py hist      --values "1,2,3,..." [--bins N]                 [--title "..."] [--width N] [--color]
 ${CLAUDE_SKILL_DIR}/plot.py box       --labels "A,B,C" --datasets "[[1,2,3],[4,5,6]]" [--title "..."] [--width N] [--height N] [--color]
 ```
@@ -46,7 +45,6 @@ ${CLAUDE_SKILL_DIR}/plot.py box       --labels "A,B,C" --datasets "[[1,2,3],[4,5
 | Show 2D point cloud / correlation               | `scatter`   |
 | Inline one-line trend in a sentence             | `sparkline` |
 | Single value vs. a max (progress / utilization) | `gauge`     |
-| Activity over days (GitHub-style heatmap)       | `calendar`  |
 | Show distribution of many values                | `hist`      |
 | Compare distributions across groups             | `box`       |
 

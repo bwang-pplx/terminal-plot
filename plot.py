@@ -123,27 +123,6 @@ def cmd_gauge(args: argparse.Namespace) -> None:
         print(f"[{bar}] {pct_str}")
 
 
-def cmd_calendar(args: argparse.Namespace) -> None:
-    values = _parse_floats(args.values)
-    if not values:
-        sys.exit("--values is empty")
-    rows = args.rows
-    cols = (len(values) + rows - 1) // rows
-    lo, hi = min(values), max(values)
-    span = hi - lo if hi > lo else 1.0
-    ramp = " ▁▂▃▄▅▆▇█"
-    grid = [[" "] * cols for _ in range(rows)]
-    for i, v in enumerate(values):
-        col = i // rows
-        row = i % rows
-        idx = min(len(ramp) - 1, int((v - lo) / span * (len(ramp) - 1)))
-        grid[row][col] = ramp[idx]
-    if args.title:
-        print(args.title)
-    for row in grid:
-        print("".join(row))
-
-
 def cmd_box(args: argparse.Namespace) -> None:
     import plotext as plt
 
@@ -275,12 +254,6 @@ def build_parser() -> argparse.ArgumentParser:
     pgg.add_argument("--label", default="")
     pgg.add_argument("--width", type=int, default=30)
     pgg.set_defaults(fn=cmd_gauge)
-
-    pcal = sub.add_parser("calendar", help="GitHub-style calendar heatmap")
-    pcal.add_argument("--values", required=True, help="comma-separated daily values, chronological")
-    pcal.add_argument("--rows", type=int, default=7, help="rows in the grid (days of week)")
-    pcal.add_argument("--title", default="")
-    pcal.set_defaults(fn=cmd_calendar)
 
     pbox = sub.add_parser("box", help="box plot (plotext, canvas mode)")
     pbox.add_argument("--labels", required=True)
