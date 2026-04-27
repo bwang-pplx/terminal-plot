@@ -1,6 +1,6 @@
 ---
 name: terminal-plot
-description: Render simple charts (bar, horizontal bar, line, multi-line, sparkline, histogram) inline in the terminal as native unicode text. Use when the user wants to visualize numeric data without leaving the CLI, or when you need to summarize tabular data with a quick chart in chat.
+description: Render charts (bar, horizontal bar, stacked bar, grouped bar, line, multi-line, scatter, sparkline, gauge, calendar heatmap, histogram, box plot) inline in the terminal as native unicode text. Use when the user wants to visualize numeric data without leaving the CLI, or when you need to summarize tabular data with a quick chart in chat.
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/plot.py *)
 ---
 
@@ -8,7 +8,7 @@ allowed-tools: Bash(${CLAUDE_SKILL_DIR}/plot.py *)
 
 A CLI that draws charts as native terminal text — no images, no GUI. Output is ANSI-free by default so it survives logs, transcripts, and pipes. Pass `--color` on supported subcommands to opt into ANSI color.
 
-Backed by [`termgraph`](https://github.com/mkaz/termgraph) (bar/hist), [`asciichartpy`](https://github.com/kroitor/asciichart) (line), and [`plotext`](https://github.com/piccolomo/plotext) (horizontal bar). Runs via `uv run --script` with PEP 723 inline metadata, so no venv setup is required other than having `uv` installed.
+Backed by [`plotext`](https://github.com/piccolomo/plotext) (`simple_bar` for bar/hbar/hist) and [`asciichartpy`](https://github.com/kroitor/asciichart) (line/multiline). Runs via `uv run --script` with PEP 723 inline metadata, so no venv setup is required other than having `uv` installed.
 
 ### When to use
 
@@ -19,24 +19,36 @@ Backed by [`termgraph`](https://github.com/mkaz/termgraph) (bar/hist), [`asciich
 ### Subcommands
 
 ```bash
-${CLAUDE_SKILL_DIR}/plot.py bar       --labels "A,B,C" --values "1,2,3" [--title "..."] [--width N] [--color]
-${CLAUDE_SKILL_DIR}/plot.py hbar      --labels "A,B,C" --values "1,2,3" [--title "..."] [--width N] [--color]
-${CLAUDE_SKILL_DIR}/plot.py line      --values "1,2,3,..."              [--title "..."] [--height N]
-${CLAUDE_SKILL_DIR}/plot.py multiline --series "[[1,2,3],[4,5,6]]"      [--title "..."] [--height N]
-${CLAUDE_SKILL_DIR}/plot.py sparkline --values "1,2,3,..."              [--title "..."]
-${CLAUDE_SKILL_DIR}/plot.py hist      --values "1,2,3,..." [--bins N]   [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py bar       --labels "A,B,C" --values "1,2,3"               [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py hbar      --labels "A,B,C" --values "1,2,3"               [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py stacked   --labels "A,B,C" --series "[[1,2,3],[4,5,6]]"   [--names "s1,s2"] [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py grouped   --labels "A,B,C" --series "[[1,2,3],[4,5,6]]"   [--names "s1,s2"] [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py line      --values "1,2,3,..."                            [--title "..."] [--height N]
+${CLAUDE_SKILL_DIR}/plot.py multiline --series "[[1,2,3],[4,5,6]]"                    [--title "..."] [--height N]
+${CLAUDE_SKILL_DIR}/plot.py scatter   --x "1,2,3" --y "4,5,6"                         [--title "..."] [--xlabel ...] [--ylabel ...] [--width N] [--height N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py sparkline --values "1,2,3,..."                            [--title "..."]
+${CLAUDE_SKILL_DIR}/plot.py gauge     --value 67 [--max 100]                          [--label "..."] [--width N]
+${CLAUDE_SKILL_DIR}/plot.py calendar  --values "1,2,0,5,..."                          [--rows 7] [--title "..."]
+${CLAUDE_SKILL_DIR}/plot.py hist      --values "1,2,3,..." [--bins N]                 [--title "..."] [--width N] [--color]
+${CLAUDE_SKILL_DIR}/plot.py box       --labels "A,B,C" --datasets "[[1,2,3],[4,5,6]]" [--title "..."] [--width N] [--height N] [--color]
 ```
 
 ### Choosing the right chart
 
-| Want                                  | Use         |
-|---------------------------------------|-------------|
-| Compare a few categories              | `bar`       |
-| Show share-of-total (pie substitute)  | `hbar`      |
-| Show a single trend over time         | `line`      |
-| Compare two or more trends            | `multiline` |
-| Inline one-line trend in a sentence   | `sparkline` |
-| Show distribution of many values      | `hist`      |
+| Want                                            | Use         |
+|-------------------------------------------------|-------------|
+| Compare a few categories                        | `bar`       |
+| Show share-of-total (pie substitute)            | `hbar`      |
+| Compare composition across categories           | `stacked`   |
+| Compare two series side-by-side per category    | `grouped`   |
+| Show a single trend over time                   | `line`      |
+| Compare two or more trends                      | `multiline` |
+| Show 2D point cloud / correlation               | `scatter`   |
+| Inline one-line trend in a sentence             | `sparkline` |
+| Single value vs. a max (progress / utilization) | `gauge`     |
+| Activity over days (GitHub-style heatmap)       | `calendar`  |
+| Show distribution of many values                | `hist`      |
+| Compare distributions across groups             | `box`       |
 
 ### Tips
 
